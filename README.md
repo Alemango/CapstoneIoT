@@ -1,8 +1,8 @@
 # Kardex Proyecto Capstone
 
-**Nombre del Proyecto:**
+**Nombre del Proyecto:** Asistente de Cuidados Médicos
 
-**Fecha de inicio del proyecto:**
+**Fecha de inicio del proyecto:** 25 de Octubre de 2021
 
 **Fecha de conclusión del proyecto:**
 
