@@ -1,29 +1,36 @@
-# Plan de acción del proyecto Capstone
+# Kardex Proyecto Capstone
 
-**Número de equipo:**
+**Nombre del Proyecto:**
+
+**Fecha de inicio del proyecto:**
+
+**Fecha de conclusión del proyecto:**
+
+**Descripción:**
+
+**Aplicaciones:**
+
+**Objetivo General:**
+
+**Objetivos Específicos:**
+
+**Justificación:**
 
 **Integrantes del equipo:**
 - Juan Jesús Alemán Espriella       [Git profile](https://github.com/Alemango)
 - Carlos Alberto Carranco González  [Git profile](https://)
 - Brenda Stephanie Cabrera Martínez [Git profile](https://)
 
-**Representante del equipo:**
-- Juan Jesús Alemán Espriella _(juanaleman19@gmail.com)_
+**Validado por:**
 
-**Título del proyecto:**
-
-**Objetivos generales:**
-
-**Objetivos específicos:**
-
-**Descripción del proyecto:**
+**Contenido temático:**
 
 **Productos:**
 
-**Servicios:**
+**Alcances:**
 
-**Resultados esperados:**
+**Requisitos:**
 
-**Rol del miembro:**
+**Software:**
 
-**Comentario y evaluación:**
+**Hardware:**
