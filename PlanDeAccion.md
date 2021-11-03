@@ -10,7 +10,7 @@
 **Representante del equipo:**
 - Juan Jesús Alemán Espriella _(juanaleman19@gmail.com)_
 
-**Título del proyecto:**
+**Título del proyecto:** Asistente de Cuidados Médicos
 
 **Objetivos generales:**
 
