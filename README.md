@@ -1,6 +1,6 @@
 # Kardex Proyecto Capstone
 
-**Nombre del Proyecto:** [Asistente de Cuidados Médicos] (https://miro.com/app/board/o9J_llJZflk=/?invite_link_id=276786076714)
+**Nombre del Proyecto:** [Asistente de Cuidados Médicos](https://miro.com/app/board/o9J_llJZflk=/?invite_link_id=276786076714)
 
 **Fecha de inicio del proyecto:** 25 de Octubre de 2021
 
