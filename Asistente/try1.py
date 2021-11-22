@@ -19,7 +19,7 @@ def from_mic():
         if cancellation_details.reason == speechsdk.CancellationReason.Error:
             print("Error details: {}".format(cancellation_details.error_details))           #imprime los detalles del error de la cancelación
 
-    if result.text == hola:     #Comparalo con la variable de control
+    if resultado.text == hola:     #Comparalo con la variable de control
         print("Hecho")
 
 from_mic() #Inicia la funcion
