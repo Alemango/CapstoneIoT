@@ -10,7 +10,7 @@
 **Representante del equipo:**
 - Juan Jesús Alemán Espriella _(juanaleman19@gmail.com)_
 
-**Título del proyecto:** Asistente de Cuidados Médicos
+**Título del proyecto:** [Asistente de Cuidados Médicos] (https://miro.com/app/board/o9J_llJZflk=/?invite_link_id=276786076714)
 
 **Objetivos generales:** Supervisar el estado de salud básico de un paciente a distancia, a través del monitoreo constante y la recolección de datos usando sensores.
 
