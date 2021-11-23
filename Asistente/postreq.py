@@ -7,7 +7,7 @@ header = {"Content-Type": "application/json"}
 #inid = input("Introduce tu nombre: ")
 #inaw = input("Te gustan los elotes? ")
 
-speech_config = speechsdk.SpeechConfig(subscription="94ae3801dd2147e39787c7b05e045899", region="westus")
+speech_config = speechsdk.SpeechConfig(subscription="KEY", region="REGION")
 speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, language="es-MX")
 print("Habla en tu micrófono") 
 resultado = speech_recognizer.recognize_once_async().get()
