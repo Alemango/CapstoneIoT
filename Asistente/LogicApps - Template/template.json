@@ -1,0 +1,98 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_Prueba_name": {
+            "defaultValue": "Prueba",
+            "type": "String"
+        },
+        "connections_luis_externalid": {
+            "defaultValue": "/subscriptions/131957ab-ee39-4984-beee-6f633b48e483/resourceGroups/Asistente/providers/Microsoft.Web/connections/luis",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_Prueba_name')]",
+            "location": "westus",
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "method": "POST",
+                                "schema": {
+                                    "properties": {
+                                        "Mensaje": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "Get_prediction": {
+                            "runAfter": {},
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['luis']['connectionId']"
+                                    }
+                                },
+                                "method": "get",
+                                "path": "/luis/v2.0/apps/@{encodeURIComponent('4d9b8814-a870-4a72-b0fe-eb14c93cae26')}/",
+                                "queries": {
+                                    "q": "@triggerBody()?['Mensaje']",
+                                    "verbose": true,
+                                    "versionId": "0.1"
+                                }
+                            }
+                        },
+                        "Response": {
+                            "runAfter": {
+                                "Get_prediction": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Response",
+                            "kind": "Http",
+                            "inputs": {
+                                "body": "Intentaste: @{body('Get_prediction')?['topScoringIntent']?['intent']}",
+                                "statusCode": 200
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "luis": {
+                                "connectionId": "[parameters('connections_luis_externalid')]",
+                                "connectionName": "luis",
+                                "id": "/subscriptions/131957ab-ee39-4984-beee-6f633b48e483/providers/Microsoft.Web/locations/westus/managedApis/luis"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
