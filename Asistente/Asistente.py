@@ -12,7 +12,7 @@ def NOMBRE():
     hecho = False
 
     resultado_futuro = reconocimiento.recognize_once_async(modelo)
-    print('Dialgo iniciando con "{}" seguido de una acción por realizar'.format(keyword))
+    print('Di algo iniciando con "{}" seguido de una acción por realizar'.format(keyword))
     resultado = resultado_futuro.get()
 
     if resultado.reason == speechsdk.ResultReason.RecognizedKeyword:
@@ -44,10 +44,20 @@ def S2T():
 
     r = requests.post(url = urla, headers = header, json = obj)
 
-    respuesta = r.content
+    respuesta = '{' + r.text + '}'
     responsed = json.loads(respuesta)
 
-    print(respuesta)
+    IntentFinal = DevInt(responsed)
+    print(IntentFinal)
+
+    if IntentFinal == 'Pedidos':
+        EntUno, EntDos = DevEnt2(responsed)
+        print(EntUno)
+        print(EntDos)
+
+    if IntentFinal == 'Recordatorio':
+        EntUno = DevEnt(responsed)
+        print(EntUno)
 
 def T2S():
     speech_config.speech_synthesis_language = "es-MX"
@@ -55,8 +65,37 @@ def T2S():
 
     audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
     synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=audio_config)
-    synthesizer.speak_text_async("Dígame.")
+    synthesizer.speak_text_async("Di algo.")
 
+def DevInt(respuesta):
+    for intencion in respuesta['intent']:
+        intint = intencion['intent']
+
+    return intint
+
+def DevEnt(respuesta):
+    for entidad in respuesta['entities']:
+        entent = entidad['children']
+
+    iterador = iter(entent)
+    
+    iterone = json.dumps(next(iterador))
+    jsiterone = json.loads(iterone)
+
+    return jsiterone
+
+def DevEnt2(respuesta):
+    for entidad in respuesta['entities']:
+        entent = entidad['children']
+
+    iterador = iter(entent)
+    
+    iterone = json.dumps(next(iterador))
+    itertwo = json.dumps(next(iterador))
+    jsiterone = json.loads(iterone)
+    jsitertwo = json.loads(itertwo)
+
+    return jsiterone, jsitertwo
 
 NOMBRE()
 T2S()
