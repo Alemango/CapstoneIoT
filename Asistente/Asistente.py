@@ -3,7 +3,9 @@ import time
 import requests
 import json
 
-speech_config = speechsdk.SpeechConfig(subscription="KEY", region="REGION")
+from requests.models import Response
+
+speech_config = speechsdk.SpeechConfig(subscription="94ae3801dd2147e39787c7b05e045899", region="westus")
 
 def NOMBRE():
     modelo = speechsdk.KeywordRecognitionModel("2c250f64-5d7d-48b3-89dd-c1625a472da1.table")
@@ -44,7 +46,7 @@ def S2T():
 
     r = requests.post(url = urla, headers = header, json = obj)
 
-    respuesta = '{' + r.text + '}'
+    respuesta = r.content
     responsed = json.loads(respuesta)
 
     IntentFinal = DevInt(responsed)
@@ -68,8 +70,12 @@ def T2S():
     synthesizer.speak_text_async("Di algo.")
 
 def DevInt(respuesta):
-    for intencion in respuesta['intent']:
-        intint = intencion['intent']
+    
+    inti = respuesta['topScoringIntent']
+    jsintint = json.dumps(inti)
+
+    intin = json.loads(jsintint)
+    intint = intin['intent']
 
     return intint
 
