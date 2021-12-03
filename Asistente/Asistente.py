@@ -3,7 +3,7 @@ import time
 import requests
 import json
 
-speech_config = speechsdk.SpeechConfig(subscription="94ae3801dd2147e39787c7b05e045899", region="westus")
+speech_config = speechsdk.SpeechConfig(subscription="KEY", region="REGION")
 ProductID = "3ac35d1779c6404bb1f9bdacbaff7d9e"
 
 def NOMBRE():
