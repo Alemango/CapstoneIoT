@@ -3,8 +3,8 @@ import time
 import requests
 import json
 
-speech_config = speechsdk.SpeechConfig(subscription="KEY", region="REGION")
-ProductID = "IDPRODUCTO"
+speech_config = speechsdk.SpeechConfig(subscription="94ae3801dd2147e39787c7b05e045899", region="westus")
+ProductID = "3ac35d1779c6404bb1f9bdacbaff7d9e"
 
 def NOMBRE():
     modelo = speechsdk.KeywordRecognitionModel("2c250f64-5d7d-48b3-89dd-c1625a472da1.table")
@@ -50,6 +50,22 @@ def S2TLUIS():
 
     IntentFinal = DevInt(responsed)
     SelectorAccion(responsed,IntentFinal)
+
+def S2T():
+    speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, language="es-MX")
+    print("Habla en tu micrófono") 
+    resultado = speech_recognizer.recognize_once_async().get()
+    if resultado.reason == speechsdk.ResultReason.RecognizedSpeech:
+        print("Dijiste: {}".format(resultado.text))
+    elif resultado.reason == speechsdk.ResultReason.NoMatch:
+        print("No se pudo reconocer:  {}".format(resultado.no_match_details))
+    elif resultado.reason == speechsdk.ResultReason.Canceled:
+        cancellation_details = resultado.cancellation_details
+        print("Reconocimiento cancelado: {}".format(cancellation_details.reason))
+        if cancellation_details.reason == speechsdk.CancellationReason.Error:
+            print("Error details: {}".format(cancellation_details.error_details))
+
+    return resultado
 
 def T2S(Mensaje):
     speech_config.speech_synthesis_language = "es-MX"
@@ -192,34 +208,54 @@ def VerifConfigInic():
 
     return Configura
 
-def PrimerUso():
+def PresentacionCero():
     T2S(Mensaje="¡Hola! Me llamo Emma, ahora soy tu asistente virtual auxiliar en cuidados médicos.")
     T2S(Mensaje="Vamos a configurar el idioma. ¿Es correcto español de México? Responde con: Sí o no.")
 
-    speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, language="es-MX")
-    print("Responde") 
-    resultado = speech_recognizer.recognize_once_async().get()
-    if resultado.reason == speechsdk.ResultReason.RecognizedSpeech:
-        print("Dijiste: {}".format(resultado.text))
-    elif resultado.reason == speechsdk.ResultReason.NoMatch:
-        print("No se pudo reconocer:  {}".format(resultado.no_match_details))
-    elif resultado.reason == speechsdk.ResultReason.Canceled:
-        cancellation_details = resultado.cancellation_details
-        print("Reconocimiento cancelado: {}".format(cancellation_details.reason))
-        if cancellation_details.reason == speechsdk.CancellationReason.Error:
-            print("Error details: {}".format(cancellation_details.error_details))
-    
-    print(resultado.text)
+def PrimerUsoIdioma():
+
+    resultado = S2T()
 
     if resultado.text == "No.":
-        T2S(Mensaje="Lo siento, por ahora sólo está disponible en este idioma.")
+        T2S(Mensaje="Lo siento, por ahora sólo está disponible en este idioma, contacta a servicio al cliente. Seguiremos con la configuración en este idioma.")
+        idioma = True
     elif resultado.text == "Sí.":
         T2S(Mensaje="Muy bien, español de México está configurado para este dispositivo.")
+        idioma = True
+    else:
+        T2S("Lo siento, contesta sólo con sí o no. ¿Es correcto español de México?")
+        idioma = False
+
+    return idioma
+
+def SiTuto():
+    T2S(Mensaje="Me pondré en modo espera, háblame usando mi nombre.")
+    T2S(Mensaje="Verás que cambia de color la luz del dispositivo. En ese momento podrás pedirme algo.")
+    T2S(Mensaje="Por ejemplo, pídeme la hora.")
+
+    NOMBRE()
+    S2TLUIS()
+
+    T2S(Mensaje="¡Muy bien! Has finalizado el tutorial. Podrás consultar más funciones con la frase: Dime tus funciones")
+
+def Tutorial():
+    T2S(Mensaje="¡Muy bien! Has configurado el idioma.")
+    T2S(Mensaje="¿Deseas hacer el tutorial?")
+
+    resp = S2T()
+
+    if resp.text == "Sí.":
+        SiTuto()
+    else:
+        T2S(Mensaje="Puedes consultar mis funciones con la frase: Dime tus funciones")
 
 ConfigInicial = VerifConfigInic()
 if ConfigInicial == True:
-    print("Configura pofavo")
-    PrimerUso()
+    PresentacionCero()
+    idioma = PrimerUsoIdioma()
+    while idioma == False:
+        idioma = PrimerUsoIdioma()
+    Tutorial()
 elif ConfigInicial == False:
     print("Yaztas")
 NOMBRE()
