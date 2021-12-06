@@ -3,7 +3,7 @@ import time
 import requests
 import json
 
-speech_config = speechsdk.SpeechConfig(subscription="KEY", region="REGION")
+speech_config = speechsdk.SpeechConfig(subscription="94ae3801dd2147e39787c7b05e045899", region="westus")
 ProductID = "3ac35d1779c6404bb1f9bdacbaff7d9e"
 
 def NOMBRE():
@@ -258,16 +258,16 @@ def CambiaConfigInic():
     r = requests.post(url = urla, headers = header, json = obj)
     
 
-ConfigInicial = VerifConfigInic()
-if ConfigInicial == True:
-    PresentacionCero()
-    idioma = PrimerUsoIdioma()
-    while idioma == False:
-        idioma = PrimerUsoIdioma()
-    Tutorial()
-    CambiaConfigInic()
-elif ConfigInicial == False:
-    print("Yaztas")
+#ConfigInicial = VerifConfigInic()
+#if ConfigInicial == True:
+#    PresentacionCero()
+#    idioma = PrimerUsoIdioma()
+#    while idioma == False:
+#        idioma = PrimerUsoIdioma()
+#    Tutorial()
+#    CambiaConfigInic()
+#elif ConfigInicial == False:
+#    print("Yaztas")
 NOMBRE()
 T2S(Mensaje="Di algo")
 S2TLUIS()
