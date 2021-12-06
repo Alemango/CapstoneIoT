@@ -249,6 +249,15 @@ def Tutorial():
     else:
         T2S(Mensaje="Puedes consultar mis funciones con la frase: Dime tus funciones")
 
+def CambiaConfigInic():
+    urla = "https://prod-189.westus.logic.azure.com:443/workflows/c9be7d6e4789427cafd89f3a1410f32d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=E9IgbDx9CIK8iX5ijpfF8knJBUYghFKlT31S_U-vp7c"
+    header = {"Content-Type": "application/json"}
+
+    obj = {'ID': ProductID}
+
+    r = requests.post(url = urla, headers = header, json = obj)
+    
+
 ConfigInicial = VerifConfigInic()
 if ConfigInicial == True:
     PresentacionCero()
@@ -256,6 +265,7 @@ if ConfigInicial == True:
     while idioma == False:
         idioma = PrimerUsoIdioma()
     Tutorial()
+    CambiaConfigInic()
 elif ConfigInicial == False:
     print("Yaztas")
 NOMBRE()
