@@ -246,8 +246,11 @@ def Tutorial():
 
     if resp.text == "Sí.":
         SiTuto()
+        uso = TipoUso()
     else:
         T2S(Mensaje="Puedes consultar mis funciones con la frase: Dime tus funciones")
+
+    return uso
 
 def CambiaConfigInic():
     urla = "https://prod-189.westus.logic.azure.com:443/workflows/c9be7d6e4789427cafd89f3a1410f32d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=E9IgbDx9CIK8iX5ijpfF8knJBUYghFKlT31S_U-vp7c"
@@ -257,17 +260,39 @@ def CambiaConfigInic():
 
     r = requests.post(url = urla, headers = header, json = obj)
     
+def TipoUso():
+    T2S(Mensaje="Ahora selecciona el tipo de uso. Doméstico o centro de cuidados")
+    resultado = S2T()
 
+    if resultado.text == "Doméstico":
+        uso = "DOM"
+    elif resultado.text == "Centro de cuidados":
+        uso = "CC"
+    else:
+        T2S(Mensaje="Se ha configurado el uso predeterminado. Doméstico")
+        uso = "DOM"
+
+    return uso
+
+def CambiaUso(usodefinido):
+    urla = "https://prod-126.westus.logic.azure.com:443/workflows/c157c7fe9b9c42b1be5f8ab718a2c53a/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=sL5RJbAXUSUnXnv7cPOcWPvDxIugsvQ3xA8xX7EYgTg"
+    header = {"Content-Type": "application/json"}
+
+    obj = {'ID': ProductID, 'Uso': usodefinido}
+
+    r = requests.post(url = urla, headers = header, json = obj)
+    print(r)
 #ConfigInicial = VerifConfigInic()
 #if ConfigInicial == True:
 #    PresentacionCero()
 #    idioma = PrimerUsoIdioma()
 #    while idioma == False:
 #        idioma = PrimerUsoIdioma()
-#    Tutorial()
+#    uso = Tutorial()
+    CambiaUso(usodefinido= "CC")
 #    CambiaConfigInic()
 #elif ConfigInicial == False:
 #    print("Yaztas")
-NOMBRE()
-T2S(Mensaje="Di algo")
-S2TLUIS()
+#NOMBRE()
+#T2S(Mensaje="Di algo")
+#S2TLUIS()
