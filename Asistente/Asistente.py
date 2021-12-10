@@ -249,6 +249,7 @@ def Tutorial():
         uso = TipoUso()
     else:
         T2S(Mensaje="Puedes consultar mis funciones con la frase: Dime tus funciones")
+        uso = "DOM"
 
     return uso
 
@@ -280,8 +281,8 @@ def CambiaUso(usodefinido):
 
     obj = {'ID': ProductID, 'Uso': usodefinido}
 
-    r = requests.post(url = urla, headers = header, json = obj)
-    print(r)
+    r = requests.post(url = urla, headers = header, json= obj)
+
 #ConfigInicial = VerifConfigInic()
 #if ConfigInicial == True:
 #    PresentacionCero()
@@ -289,7 +290,7 @@ def CambiaUso(usodefinido):
 #    while idioma == False:
 #        idioma = PrimerUsoIdioma()
 #    uso = Tutorial()
-    CambiaUso(usodefinido= "CC")
+#    CambiaUso(uso)
 #    CambiaConfigInic()
 #elif ConfigInicial == False:
 #    print("Yaztas")
