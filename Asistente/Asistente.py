@@ -283,6 +283,41 @@ def CambiaUso(usodefinido):
 
     r = requests.post(url = urla, headers = header, json= obj)
 
+def ConsultaPaciente():
+    print("Consulta")
+
+def EditaPaciente():
+    print("Edita")
+
+def AgregarPaciente():
+    print("Agrega")
+
+def EliminarPaciente():
+    print("Elimina")
+
+def Pacientes():
+    T2S(Mensaje="Bienvenido a la configuración general de pacientes. Puedes: Consultar, editar, agregar o eliminar información. También puedes hacerlo a través de la app. ¿Qué deseas hacer?")
+    electo = False
+
+    while electo == False:
+        eleccion = S2T()
+
+        if eleccion.text == "Consultar." or eleccion.text == "Consulta." or eleccion.text == "Consultar información.":
+            ConsultaPaciente()
+            electo = True
+        elif eleccion.text == "Editar." or eleccion.text == "Edita." or eleccion.text == "Editar información.":
+            EditaPaciente()
+            electo = True
+        elif eleccion.text == "Agregar." or eleccion.text == "Agrega." or eleccion.text == "Agregar información.":
+            AgregarPaciente()
+            electo = True
+        elif eleccion.text == "Eliminar." or eleccion.text == "Elimina." or eleccion.text == "Eliminar información.":
+            EliminarPaciente()
+            electo = True
+        else:
+            T2SError()
+            electo = False
+
 #ConfigInicial = VerifConfigInic()
 #if ConfigInicial == True:
 #    PresentacionCero()
@@ -297,3 +332,4 @@ def CambiaUso(usodefinido):
 #NOMBRE()
 #T2S(Mensaje="Di algo")
 #S2TLUIS()
+#Pacientes()
