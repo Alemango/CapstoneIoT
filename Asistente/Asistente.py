@@ -1,8 +1,10 @@
 import azure.cognitiveservices.speech as speechsdk
+from firebase import firebase
 import time
 import requests
 import json
 
+fb = firebase.FirebaseApplication("https://emma-asistente-default-rtdb.firebaseio.com/",None)
 speech_config = speechsdk.SpeechConfig(subscription="94ae3801dd2147e39787c7b05e045899", region="westus")
 ProductID = "3ac35d1779c6404bb1f9bdacbaff7d9e"
 
@@ -283,6 +285,46 @@ def CambiaUso(usodefinido):
 
     r = requests.post(url = urla, headers = header, json= obj)
 
+def Alergias():
+    T2S(Mensaje="¿El paciente tiene alergias?")
+    resultado = S2T()
+    confirmacion = False
+
+    while confirmacion == False:
+        if resultado.text == "Sí.":
+            confirmacion = True
+            T2S(Mensaje="¿Cuáles son?")
+            alergia = S2T()
+        elif resultado.text == "No.":
+            confirmacion = True
+            alergia = "Ninguna"
+        else: 
+            T2SError()
+            confirmacion = False
+            resultado = S2T()
+
+    return alergia
+
+def Enfermedades():
+    T2S(Mensaje="¿El paciente tiene enfermedades importantes o que requieren supervisión?")
+    resultado = S2T()
+    confirmacion = False
+
+    while confirmacion == False:
+        if resultado.text == "Sí.":
+            confirmacion = True
+            T2S(Mensaje="¿Cuáles son?")
+            disease = S2T()
+        elif resultado.text == "No.":
+            confirmacion = True
+            disease = "Ninguna"
+        else: 
+            T2SError()
+            confirmacion = False
+            resultado = S2T()
+
+    return disease
+
 def ConsultaPaciente():
     print("Consulta")
 
@@ -290,7 +332,28 @@ def EditaPaciente():
     print("Edita")
 
 def AgregarPaciente():
-    print("Agrega")
+    direccion = '/ID/' + ProductID + '/Pacientes/'
+    T2S(Mensaje="Has elegido agregar paciente. Ten a la mano la información de tu paciente, y responde las siguientes preguntas.")
+    
+    T2S(Mensaje="Apellido Paterno")
+    ApellidoP = S2T()
+    T2S(Mensaje="Apellido Materno")
+    ApellidoM = S2T()
+    T2S(Mensaje="Nombre o Nombres")
+    Nombres = S2T()
+    T2S(Mensaje="Alias, con esto podrás buscarlo más rápido")
+    KeyAlias = S2T()
+    T2S(Mensaje="Edad")
+    Edad = S2T()
+    T2S(Mensaje="Estatura en centímetros")
+    Estatura = S2T()
+    T2S(Mensaje="Peso en kilogramos")
+    Peso = S2T()
+    T2S(Mensaje="Grupo Sangíneo")
+    GSangre = S2T()
+    Alergico = Alergias()
+    Enferm = Enfermedades()
+
 
 def EliminarPaciente():
     print("Elimina")
@@ -332,4 +395,3 @@ def Pacientes():
 #NOMBRE()
 #T2S(Mensaje="Di algo")
 #S2TLUIS()
-#Pacientes()
