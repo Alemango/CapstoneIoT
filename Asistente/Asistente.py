@@ -295,15 +295,16 @@ def Alergias():
             confirmacion = True
             T2S(Mensaje="¿Cuáles son?")
             alergia = S2T()
+            allergia = str(alergia.text)
         elif resultado.text == "No.":
             confirmacion = True
-            alergia = "Ninguna"
+            allergia = "Ninguna"
         else: 
             T2SError()
             confirmacion = False
             resultado = S2T()
 
-    return alergia
+    return allergia
 
 def Enfermedades():
     T2S(Mensaje="¿El paciente tiene enfermedades importantes o que requieren supervisión?")
@@ -314,7 +315,8 @@ def Enfermedades():
         if resultado.text == "Sí.":
             confirmacion = True
             T2S(Mensaje="¿Cuáles son?")
-            disease = S2T()
+            disea = S2T()
+            disease = str(disea.text)
         elif resultado.text == "No.":
             confirmacion = True
             disease = "Ninguna"
@@ -349,11 +351,27 @@ def AgregarPaciente():
     Estatura = S2T()
     T2S(Mensaje="Peso en kilogramos")
     Peso = S2T()
-    T2S(Mensaje="Grupo Sangíneo")
+    T2S(Mensaje="Grupo Sanguíneo")
     GSangre = S2T()
     Alergico = Alergias()
     Enferm = Enfermedades()
 
+    datos = {
+        "Apellido-Paterno": ApellidoP.text,
+        "Apellido-Materno": ApellidoM.text,
+        "Nombre(s)": Nombres.text,
+        "Alias": KeyAlias.text,
+        "Edad": Edad.text,
+        "Estatura": Estatura.text,
+        "Peso": Peso.text,
+        "Grupo-Sangre": GSangre.text,
+        "Alergias": Alergico,
+        "Enfermedades": Enferm
+    }
+
+    resid = fb.post(direccion, datos)
+    
+    return resid
 
 def EliminarPaciente():
     print("Elimina")
@@ -395,3 +413,4 @@ def Pacientes():
 #NOMBRE()
 #T2S(Mensaje="Di algo")
 #S2TLUIS()
+AgregarPaciente()
