@@ -327,8 +327,72 @@ def Enfermedades():
 
     return disease
 
+def ConsultaPacientesID():
+    direccion = '/ID/' + ProductID
+    patients = fb.get(direccion,'Pacientes')
+    
+    j = 0
+    patienthree = "Nadaun"
+    patientfour = "Nadaun"
+    patientfive = "Nadaun"
+    for i in patients:
+        stri = str(i)
+        if j == 0:
+            patientone = stri
+        elif j == 1:
+            patientwo = stri
+        elif j == 2:
+            patienthree = stri
+        elif j == 3:
+            patientfour = stri
+        elif j == 4:
+            patientfive = stri
+        j = j + 1
+
+    return patientone, patientwo, patienthree, patientfour, patientfive
+
+def Alias(paciente):
+    direccion = '/ID/' + ProductID + '/Pacientes/' + paciente
+    ak = fb.get(direccion,'Alias')
+    aka = str(ak)
+
+    return aka
+
 def ConsultaPaciente():
-    print("Consulta")
+    direccion = '/ID/' + ProductID + '/Pacientes/'
+    uno, dos, tres, cuatro, cinco = ConsultaPacientesID()
+
+    aliasuno = Alias(uno)
+    aliasdos = Alias(dos)
+    aliastres = Alias (tres)
+    aliascuatro = Alias(cuatro)
+    aliascinco = Alias(cinco)
+
+    T2S(Mensaje="Deseas buscar por folio o usando el alias.")
+    resultado = S2T()
+
+    if resultado.text == "Por folio." or resultado.text == "Folio." or resultado.text == "El folio.":
+        print("uso folio xd")
+    elif resultado.text == "Usando el alias." or resultado.text == "Alias." or resultado.text == "Por el alias." or resultado.text == "El alias.":
+        T2S(Mensaje="¿Qué paciente buscas?")
+        busca = S2T()
+        if busca.text == aliasuno:
+            search = fb.get(direccion, uno)
+        elif busca.text == aliasdos:
+            search = fb.get(direccion, dos)
+        elif busca.text == aliastres:
+            search = fb.get(direccion, tres)
+        elif busca.text == aliascuatro:
+            search = fb.get(direccion, cuatro)
+        elif busca.text == aliascinco:
+            search = fb.get(direccion, cinco)
+        else:
+            T2SError()
+    else:
+        T2SError()
+
+    info = "El paciente" + str(search['Nombre(s)']) + " " + str(search['Apellido-Paterno']) + " " + str(search['Apellido-Materno']) + " tiene " + str(search['Edad']) + " años, mide " + str(search['Estatura']) + " centímetros y pesa " + str(search['Peso']) + " kilogramos. Su tipo de sangre es " + str(search['Grupo-Sangre']) + ". Alergias: " + str(search['Alergias']) + ". Enfermedades: " + str(search['Enfermedades'])
+    T2S(info)
 
 def EditaPaciente():
     print("Edita")
@@ -356,15 +420,30 @@ def AgregarPaciente():
     Alergico = Alergias()
     Enferm = Enfermedades()
 
+    APP = str(ApellidoP.text)
+    APP = APP[:-1]
+    APM = str(ApellidoM.text)
+    APM = APM[:-1]
+    NMB = str(Nombres.text)
+    NMB = NMB[:-1]
+    EDD = str(Edad.text)
+    EDD = EDD[:-1]
+    EST = str(Estatura.text)
+    EST = EST[:-1]
+    PES = str(Peso.text)
+    PES = PES[:-1]
+    GSG = str(GSangre.text)
+    GSG = GSG[:-1]
+
     datos = {
-        "Apellido-Paterno": ApellidoP.text,
-        "Apellido-Materno": ApellidoM.text,
-        "Nombre(s)": Nombres.text,
+        "Apellido-Paterno": APP,
+        "Apellido-Materno": APM,
+        "Nombre(s)": NMB,
         "Alias": KeyAlias.text,
-        "Edad": Edad.text,
-        "Estatura": Estatura.text,
-        "Peso": Peso.text,
-        "Grupo-Sangre": GSangre.text,
+        "Edad": EDD,
+        "Estatura": EST,
+        "Peso": PES,
+        "Grupo-Sangre": GSG,
         "Alergias": Alergico,
         "Enfermedades": Enferm
     }
@@ -413,4 +492,4 @@ def Pacientes():
 #NOMBRE()
 #T2S(Mensaje="Di algo")
 #S2TLUIS()
-AgregarPaciente()
+ConsultaPaciente()
