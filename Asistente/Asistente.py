@@ -395,7 +395,46 @@ def ConsultaPaciente():
     T2S(info)
 
 def EditaPaciente():
-    T2S(Mensaje="Para editar la información de un paciente usa la aplicación.")
+    uno, dos, tres, cuatro, cinco = ConsultaPacientesID()
+
+    aliasuno = Alias(uno)
+    aliasdos = Alias(dos)
+    aliastres = Alias (tres)
+    aliascuatro = Alias(cuatro)
+    aliascinco = Alias(cinco)
+
+    pat_folio = [uno, dos, tres, cuatro, cinco]
+    pat_alias = [aliasuno, aliasdos, aliastres, aliascuatro, aliascinco]
+
+    info_raw = ["Alergias", "Alias", "Apellido-Materno", "Apellido-Paterno", "Edad", "Enfermedades", "Estatura", "Grupo-Sangre", "Nombre(s)", "Peso"]
+    info_trad = ["Alergias.", "Alias.", "Apellido materno.", "Apellido paterno.", "Edad.", "Enfermedades.", "Estatura.", "Tipo de sangre.", "Nombre.", "Peso."] 
+
+    T2S(Mensaje="¿Qué paciente deseas editar?")
+    patient = S2T()
+    patstr = str(patient.text)
+
+    if patient.text in pat_alias:
+        T2S(Mensaje="¿Qué parámetro de su información deseas editar?")
+        param = S2T()
+        paramstr = str(param.text)
+
+        if param.text in info_trad:
+            T2S(Mensaje="¿Cual es su nuevo valor?")
+            value = S2T()
+            valuestr = str(value.text)
+            T2S(Mensaje="Cambiando valor.")
+
+            pat_ch = pat_alias.index(patstr)
+            par_ch = info_trad.index(paramstr)
+
+            direccion = '/ID/' + ProductID + '/Pacientes/' + pat_folio[pat_ch]
+
+            fb.put(direccion, info_raw[par_ch], valuestr)
+
+            confi = "Se ha cambiado " + paramstr[:-1] + " a " + valuestr[:-1]
+            T2S(confi)
+    else:
+        T2S(Mensaje="Ese no es un alias válido. Volviendo al menú para evitar accidentes.")
 
 def AgregarPaciente():
     direccion = '/ID/' + ProductID + '/Pacientes/'
@@ -520,4 +559,4 @@ def Pacientes():
 #NOMBRE()
 #T2S(Mensaje="Di algo")
 #S2TLUIS()
-AgregarPaciente()
+EditaPaciente()
