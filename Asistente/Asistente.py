@@ -395,7 +395,7 @@ def ConsultaPaciente():
     T2S(info)
 
 def EditaPaciente():
-    print("Edita")
+    T2S(Mensaje="Para editar la información de un paciente usa la aplicación.")
 
 def AgregarPaciente():
     direccion = '/ID/' + ProductID + '/Pacientes/'
@@ -453,7 +453,35 @@ def AgregarPaciente():
     return resid
 
 def EliminarPaciente():
-    print("Elimina")
+    direccion = '/ID/' + ProductID + '/Pacientes/'
+    uno, dos, tres, cuatro, cinco = ConsultaPacientesID()
+    pats = [uno, dos, tres, cuatro, cinco]
+
+    aliasuno = Alias(uno)
+    aliasdos = Alias(dos)
+    aliastres = Alias (tres)
+    aliascuatro = Alias(cuatro)
+    aliascinco = Alias(cinco)
+
+    T2S(Mensaje="¿Qué paciente deseas eliminar? Recuerda usar el alias y que esto es una acción no reversible.")
+    delete = S2T()
+    aliados = [aliasuno, aliasdos, aliastres, aliascuatro, aliascinco]
+    if delete.text in aliados:
+        
+        deleted = str(delete.text) 
+        T2S(Mensaje="¿Está seguro de eliminar la información de " + deleted + "?")
+        confirmacion = S2T()
+
+        if confirmacion.text == "Sí." or confirmacion.text == "Estoy seguro.":
+            aliado = aliados.index(deleted)
+            fb.delete(direccion,pats[aliado])
+            T2S(Mensaje="Información de paciente eliminada.")
+        else:
+            T2S(Mensaje="Cancelando eliminación.")
+
+
+    else:
+        T2S(Mensaje="Ese no es un alias válido. Volviendo al menú para evitar accidentes.")
 
 def Pacientes():
     T2S(Mensaje="Bienvenido a la configuración general de pacientes. Puedes: Consultar, editar, agregar o eliminar información. También puedes hacerlo a través de la app. ¿Qué deseas hacer?")
@@ -492,4 +520,4 @@ def Pacientes():
 #NOMBRE()
 #T2S(Mensaje="Di algo")
 #S2TLUIS()
-ConsultaPaciente()
+AgregarPaciente()
