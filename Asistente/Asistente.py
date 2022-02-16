@@ -120,6 +120,16 @@ def DevEnt2(respuesta):
     return jsiterone, jsitertwo
 
 def SelectorAccion(ResBody, IntencionJSON):
+    uno, dos, tres, cuatro, cinco = ConsultaPacientesID()
+
+    aliasuno = Alias(uno)
+    aliasdos = Alias(dos)
+    aliastres = Alias (tres)
+    aliascuatro = Alias(cuatro)
+    aliascinco = Alias(cinco)
+
+    pati = [aliasuno, aliasdos, aliastres, aliascuatro, aliascinco]
+
     if IntencionJSON['intent'] == 'Pedidos':
         try: 
             EntUno, EntDos = DevEnt2(ResBody)
@@ -140,7 +150,22 @@ def SelectorAccion(ResBody, IntencionJSON):
             FH = PedisteFH()
             T2S(FH)
         except:
-            T2SError
+            T2SError()
+
+    elif IntencionJSON['intent'] == 'ComApp':
+        try:
+            EntUno = DevEnt(ResBody)
+            if EntUno['childName'] == 'Alias':
+                if EntUno['entity'] in pati:
+                    direccion = '/ID/' + ProductID + '/Personal'
+                    fb.put(direccion, "Temporal",str(EntUno['entity']))
+                    T2S("Perfil enviado")
+            elif EntUno['childName'] == 'Paciente':
+                elegido = int(EntUno['entity'])
+                print(pati[elegido-1])
+                T2S("Enviado vía Paciente")
+        except:
+            T2SError()
 
 def TraductorFH(dia, mes):
     if dia == "Monday":
@@ -557,6 +582,6 @@ def Pacientes():
 #elif ConfigInicial == False:
 #    print("Yaztas")
 #NOMBRE()
-#T2S(Mensaje="Di algo")
-#S2TLUIS()
-EditaPaciente()
+T2S(Mensaje="Di algo")
+S2TLUIS()
+#AgregarPaciente()

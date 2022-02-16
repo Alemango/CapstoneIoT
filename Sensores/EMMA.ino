@@ -77,6 +77,7 @@ client.loop();
 
  MAXloop();
  leerdht1();
+ MQloop();
 
  ThingSpeak.writeFields(channelID,WriteAPIKey);
  Serial.println("Datos enviados a ThingSpeak!");
@@ -116,4 +117,21 @@ void leerdht1() {
 
   ThingSpeak.setField (3,t1);
   ThingSpeak.setField (4,h1);
+}
+
+void MQloop() {
+  
+   int MQ135_data = analogRead(A6);
+
+  if(MQ135_data < MQ135_THRESHOLD_1){
+    Serial.print("Buena Calidad de Aire: ");
+  } else {
+    Serial.print("Mala Calidad de Aire: "); 
+  }
+    Serial.print(MQ135_data); // analog data
+    Serial.println(" PPM"); // Unit = part per million
+  
+  Serial.println("*****************************************************");
+
+  ThingSpeak.setField (5,MQ135_data);
 }
