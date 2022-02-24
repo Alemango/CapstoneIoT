@@ -1,23 +1,40 @@
-import azure.cognitiveservices.speech as speechsdk
-from firebase import firebase
-import time
-import requests
-import json
+# Diplomado Internet de las cosas | Samsung Innovation Campus | Código IoT
 
-fb = firebase.FirebaseApplication("https://emma-asistente-default-rtdb.firebaseio.com/",None)
-speech_config = speechsdk.SpeechConfig(subscription="94ae3801dd2147e39787c7b05e045899", region="westus")
-ProductID = "3ac35d1779c6404bb1f9bdacbaff7d9e"
+# Proyecto Capstone: Asistente Médico
+# Alumno: Juan Jesús Alemán Espriella
 
+# Python 3.9.7 Anaconda
+
+# Descripción: 
+# Asistente controlado vía voz (NUI). Consiste en un intérprete de lenguaje natural (voz) construido vía Speech to
+# Text y Text to Speech, usando las herramientas de la nube de Microsoft Azure. Es capaz de activarse al mencionar una
+# palabra clave (Emma), y ejercer una cantidad de funciones que harán de la navegación y monitoreo de pacientes,
+# una tarea más simple e intuitiva.
+# Utiliza la RealTime Database de Firebase para mantener actualizados los valores de cada paciente en tiempo real.
+
+import azure.cognitiveservices.speech as speechsdk # Librería de Azure Cognitive Services | pip install azure-cognitiveservices-speech
+from firebase import firebase # Librería para conexión con Firebase | pip install python-firebase
+import time # Librería para manejos de fecha y hora
+import requests # Librería para manejos de requests GET, POST, PUT, DELETE | pip install requests
+import json # Librería para el manejo de datos en JSON
+
+fb = firebase.FirebaseApplication("https://emma-asistente-default-rtdb.firebaseio.com/",None) # Inicializamos la conexión con Firebase
+speech_config = speechsdk.SpeechConfig(subscription="94ae3801dd2147e39787c7b05e045899", region="westus") # Inicializamos la conexión con Azure Cognitive Services
+ProductID = "3ac35d1779c6404bb1f9bdacbaff7d9e" 
+
+# Función para que el asiste reaccione a una sola palabra clave
 def NOMBRE():
-    modelo = speechsdk.KeywordRecognitionModel("2c250f64-5d7d-48b3-89dd-c1625a472da1.table")
+    modelo = speechsdk.KeywordRecognitionModel("2c250f64-5d7d-48b3-89dd-c1625a472da1.table") # Se adjunta el archivo con el que se entrenó
     keyword = "Emma"
     reconocimiento = speechsdk.KeywordRecognizer()
     hecho = False
 
+    # Una vez que se reconoce pide una acción a realizar
     resultado_futuro = reconocimiento.recognize_once_async(modelo)
     print('Di algo iniciando con "{}" seguido de una acción por realizar'.format(keyword))
     resultado = resultado_futuro.get()
 
+    # Cuando el resultado del reconocimiento es válido tiene un delay de 0.2 segundos antes de "escuchar" la petición
     if resultado.reason == speechsdk.ResultReason.RecognizedKeyword:
         time.sleep(0.2) 
         resultado_stream = speechsdk.AudioDataStream(resultado)
@@ -26,13 +43,20 @@ def NOMBRE():
 
     print(hecho)
 
+# Función Speech to Text que transcribe la petición hecha por voz a texto y la envía a una Logic App de Azure en la cual
+# se analiza el contenido con un intérprete de lenguaje natural, el cuál a través de "entrenamiento" es capaz de devolver 
+# la intención de la petición y las entidades que componen esa petición.
 def S2TLUIS():
+    # Datos para el envío vía Request a la Logic App
     urla = "https://prod-16.westus.logic.azure.com:443/workflows/fbf4ceb5c57d4c0c855c5eee69903ced/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=0h2xGqODvg1PKcdPX6Or8_ogRFiWIO1sK0MlOSeoh-Q"
     header = {"Content-Type": "application/json"}
 
+    #Inicia la transcripción de voz a texto especificando español de México
     speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, language="es-MX")
     print("Habla en tu micrófono") 
     resultado = speech_recognizer.recognize_once_async().get()
+
+    # Muestra lo dicho y si falla muestra los detalles del fallo
     if resultado.reason == speechsdk.ResultReason.RecognizedSpeech:
         print("Dijiste: {}".format(resultado.text))
     elif resultado.reason == speechsdk.ResultReason.NoMatch:
@@ -45,18 +69,26 @@ def S2TLUIS():
 
     obj = {'Mensaje': resultado.text}
 
+    # Se realiza el envío de la petición
     r = requests.post(url = urla, headers = header, json = obj)
 
+    # Se recibe la respuesta y se envía a DevInt que analiza la intención y a SelectorAccion que ejecuta una función
+    # con base en la intención
     respuesta = r.content
     responsed = json.loads(respuesta)
 
     IntentFinal = DevInt(responsed)
     SelectorAccion(responsed,IntentFinal)
 
+# Función Speech to Text, la cual sirve para cuando necesitamos hacer la transcripción de voz, pero sin enviarlo a 
+# la Logic App
 def S2T():
+    #Inicia la transcripción de voz a texto especificando español de México
     speech_recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, language="es-MX")
     print("Habla en tu micrófono") 
     resultado = speech_recognizer.recognize_once_async().get()
+
+    # Muestra lo dicho y si falla muestra los detalles del fallo
     if resultado.reason == speechsdk.ResultReason.RecognizedSpeech:
         print("Dijiste: {}".format(resultado.text))
     elif resultado.reason == speechsdk.ResultReason.NoMatch:
@@ -69,32 +101,42 @@ def S2T():
 
     return resultado
 
+# Función Text to Speech que servirá para dar retroalimentación sonora al usuario
 def T2S(Mensaje):
+    # Se especifícan el lenguaje y la voz a utilizar.
     speech_config.speech_synthesis_language = "es-MX"
     speech_config.speech_synthesis_voice_name ="es-MX-DaliaNeural"
 
+    # Se configura el dispositivo de audio a utilizar
     audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
     synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=audio_config)
     synthesizer.speak_text_async(Mensaje)
 
+#Función Text to Speech con mensaje de error
 def T2SError():
+    # Se especifícan el lenguaje y la voz a utilizar.
     speech_config.speech_synthesis_language = "es-MX"
     speech_config.speech_synthesis_voice_name ="es-MX-DaliaNeural"
 
+    # Se configura el dispositivo de audio a utilizar
     audio_config = speechsdk.audio.AudioOutputConfig(use_default_speaker=True)
     synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config, audio_config=audio_config)
     synthesizer.speak_text_async("Lo siento, no te entendí.")
 
+# Función que extrae la información de la respuesta JSON a la petición requests
 def DevInt(respuesta):
     
+    # Extrae el contenido de la etiqueta 'topScoringIntent'
     inti = respuesta['topScoringIntent']
     jsintint = json.dumps(inti)
 
+    # Se vuelve a "cargar" el JSON
     intin = json.loads(jsintint)
     intint = intin
 
     return intint
 
+# Función que extrae una entidad de la respuesta JSON
 def DevEnt(respuesta):
     for entidad in respuesta['entities']:
         entent = entidad['children']
@@ -106,6 +148,7 @@ def DevEnt(respuesta):
 
     return jsiterone
 
+# Función que extrae dos entidades de la respuesta JSON
 def DevEnt2(respuesta):
     for entidad in respuesta['entities']:
         entent = entidad['children']
@@ -119,17 +162,23 @@ def DevEnt2(respuesta):
 
     return jsiterone, jsitertwo
 
+# Función que con base a la intención ejecuta una acción
 def SelectorAccion(ResBody, IntencionJSON):
+    
+    # Traemos los folios de los pacientes
     uno, dos, tres, cuatro, cinco = ConsultaPacientesID()
 
+    # Asignamos los alias a cada paciente
     aliasuno = Alias(uno)
     aliasdos = Alias(dos)
     aliastres = Alias (tres)
     aliascuatro = Alias(cuatro)
     aliascinco = Alias(cinco)
 
+    # Creamos una lista con los alias de los pacientes
     pati = [aliasuno, aliasdos, aliastres, aliascuatro, aliascinco]
 
+    # Se elige la acción con base en la intención
     if IntencionJSON['intent'] == 'Pedidos':
         try: 
             EntUno, EntDos = DevEnt2(ResBody)
@@ -167,6 +216,7 @@ def SelectorAccion(ResBody, IntencionJSON):
         except:
             T2SError()
 
+# Cambia los nombres en inglés a español
 def TraductorFH(dia, mes):
     if dia == "Monday":
         diatrad = "Lunes"
@@ -210,6 +260,7 @@ def TraductorFH(dia, mes):
 
     return diatrad, mestrad
 
+# Función que devuelve Fecha y Hora actual
 def PedisteFH():
     dialetra = time.strftime("%A")
     mesnumero = time.strftime("%m")
@@ -220,12 +271,15 @@ def PedisteFH():
 
     return FH
 
+# Función que revisa si el producto ya hizo las configuraciones iniciales y tutorial
 def VerifConfigInic():
+    # Datos para el request
     urla = "https://prod-90.westus.logic.azure.com:443/workflows/98b8369cf1124757be9371b37d31a8f2/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=aPhKiPLu4mvPVh4N4Jnp5W7e8fZI-zagvpm8ctzhm_4"
     header = {"Content-Type": "application/json"}
 
     obj = {'ID': ProductID}
 
+    # Hacemos el request para la logic app que revisará el estado de equipo
     r = requests.post(url = urla, headers = header, json = obj)
     
     if r.text == "FALSE":
@@ -235,12 +289,14 @@ def VerifConfigInic():
 
     return Configura
 
+# Presentación inicial del asistente
 def PresentacionCero():
     T2S(Mensaje="¡Hola! Me llamo Emma, ahora soy tu asistente virtual auxiliar en cuidados médicos.")
     T2S(Mensaje="Vamos a configurar el idioma. ¿Es correcto español de México? Responde con: Sí o no.")
 
+# Configuración de idioma para primera vez
 def PrimerUsoIdioma():
-
+    #Utilizamos Speech to Text sin el envío al intérprete de Lenguaje Natural
     resultado = S2T()
 
     if resultado.text == "No.":
@@ -255,6 +311,7 @@ def PrimerUsoIdioma():
 
     return idioma
 
+# Función tutorial del asistente
 def SiTuto():
     T2S(Mensaje="Me pondré en modo espera, háblame usando mi nombre.")
     T2S(Mensaje="Verás que cambia de color la luz del dispositivo. En ese momento podrás pedirme algo.")
@@ -265,6 +322,7 @@ def SiTuto():
 
     T2S(Mensaje="¡Muy bien! Has finalizado el tutorial. Podrás consultar más funciones con la frase: Dime tus funciones")
 
+# Función que pregunta si deseas hacer el tutorial
 def Tutorial():
     T2S(Mensaje="¡Muy bien! Has configurado el idioma.")
     T2S(Mensaje="¿Deseas hacer el tutorial?")
@@ -280,14 +338,18 @@ def Tutorial():
 
     return uso
 
+# Función que una vez terminada la configuración inicial cambia el estado del equipo a "Configurado"
 def CambiaConfigInic():
+    # Datos para el request
     urla = "https://prod-189.westus.logic.azure.com:443/workflows/c9be7d6e4789427cafd89f3a1410f32d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=E9IgbDx9CIK8iX5ijpfF8knJBUYghFKlT31S_U-vp7c"
     header = {"Content-Type": "application/json"}
 
     obj = {'ID': ProductID}
 
+    # Request hacia una Logic App de Azure
     r = requests.post(url = urla, headers = header, json = obj)
-    
+
+# Función que configura el uso del equipo, doméstico o centro de cuidados    
 def TipoUso():
     T2S(Mensaje="Ahora selecciona el tipo de uso. Doméstico o centro de cuidados")
     resultado = S2T()
@@ -302,6 +364,7 @@ def TipoUso():
 
     return uso
 
+# Función que cambia el estado del uso en el equipo en la nube
 def CambiaUso(usodefinido):
     urla = "https://prod-126.westus.logic.azure.com:443/workflows/c157c7fe9b9c42b1be5f8ab718a2c53a/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=sL5RJbAXUSUnXnv7cPOcWPvDxIugsvQ3xA8xX7EYgTg"
     header = {"Content-Type": "application/json"}
@@ -310,11 +373,13 @@ def CambiaUso(usodefinido):
 
     r = requests.post(url = urla, headers = header, json= obj)
 
+# Función que pregunta las alergias del paciente
 def Alergias():
     T2S(Mensaje="¿El paciente tiene alergias?")
     resultado = S2T()
     confirmacion = False
 
+    # Si el usuario dice que sí, pregunta cuales, si no, lo reporta como un ninguna
     while confirmacion == False:
         if resultado.text == "Sí.":
             confirmacion = True
@@ -331,11 +396,13 @@ def Alergias():
 
     return allergia
 
+# Función que pregunta las enfermedades del paciente
 def Enfermedades():
     T2S(Mensaje="¿El paciente tiene enfermedades importantes o que requieren supervisión?")
     resultado = S2T()
     confirmacion = False
 
+    # Si el usuario dice que sí, pregunta cuales, si no, lo reporta como un ninguna
     while confirmacion == False:
         if resultado.text == "Sí.":
             confirmacion = True
@@ -352,10 +419,12 @@ def Enfermedades():
 
     return disease
 
+# Función que importa los folios de cada paciente de la base de datos de Firebase
 def ConsultaPacientesID():
-    direccion = '/ID/' + ProductID
-    patients = fb.get(direccion,'Pacientes')
+    direccion = '/ID/' + ProductID #´Dirección donde están los folios
+    patients = fb.get(direccion,'Pacientes') # Obtener los folios
     
+    # Se guardan los folios en distintas variables
     j = 0
     patienthree = "Nadaun"
     patientfour = "Nadaun"
@@ -376,6 +445,7 @@ def ConsultaPacientesID():
 
     return patientone, patientwo, patienthree, patientfour, patientfive
 
+# Función que con base al folio asigna su alias correspondiente
 def Alias(paciente):
     direccion = '/ID/' + ProductID + '/Pacientes/' + paciente
     ak = fb.get(direccion,'Alias')
@@ -383,10 +453,13 @@ def Alias(paciente):
 
     return aka
 
+# Función que devuelve de manera sonora la información de un paciente solicitado
 def ConsultaPaciente():
+    # Datos para Firebase
     direccion = '/ID/' + ProductID + '/Pacientes/'
     uno, dos, tres, cuatro, cinco = ConsultaPacientesID()
 
+    # Se asigna el alias de cada paciente, ya que con este se podrá consultar su información
     aliasuno = Alias(uno)
     aliasdos = Alias(dos)
     aliastres = Alias (tres)
@@ -396,6 +469,7 @@ def ConsultaPaciente():
     T2S(Mensaje="Deseas buscar por folio o usando el alias.")
     resultado = S2T()
 
+    # Eliges si consultar usando el folio o el alias
     if resultado.text == "Por folio." or resultado.text == "Folio." or resultado.text == "El folio.":
         print("uso folio xd")
     elif resultado.text == "Usando el alias." or resultado.text == "Alias." or resultado.text == "Por el alias." or resultado.text == "El alias.":
@@ -416,10 +490,13 @@ def ConsultaPaciente():
     else:
         T2SError()
 
+    # Devuelve la información solicitada
     info = "El paciente" + str(search['Nombre(s)']) + " " + str(search['Apellido-Paterno']) + " " + str(search['Apellido-Materno']) + " tiene " + str(search['Edad']) + " años, mide " + str(search['Estatura']) + " centímetros y pesa " + str(search['Peso']) + " kilogramos. Su tipo de sangre es " + str(search['Grupo-Sangre']) + ". Alergias: " + str(search['Alergias']) + ". Enfermedades: " + str(search['Enfermedades'])
     T2S(info)
 
+# Función para editar la información del paciente usando voz
 def EditaPaciente():
+    # Obtenemos los folios de los pacientes y asignamos sus alias
     uno, dos, tres, cuatro, cinco = ConsultaPacientesID()
 
     aliasuno = Alias(uno)
@@ -428,9 +505,11 @@ def EditaPaciente():
     aliascuatro = Alias(cuatro)
     aliascinco = Alias(cinco)
 
+    # Los acomodamos en listas
     pat_folio = [uno, dos, tres, cuatro, cinco]
     pat_alias = [aliasuno, aliasdos, aliastres, aliascuatro, aliascinco]
 
+    # Creamos listas con las etiquetas de los valores almacenados
     info_raw = ["Alergias", "Alias", "Apellido-Materno", "Apellido-Paterno", "Edad", "Enfermedades", "Estatura", "Grupo-Sangre", "Nombre(s)", "Peso"]
     info_trad = ["Alergias.", "Alias.", "Apellido materno.", "Apellido paterno.", "Edad.", "Enfermedades.", "Estatura.", "Tipo de sangre.", "Nombre.", "Peso."] 
 
@@ -438,6 +517,7 @@ def EditaPaciente():
     patient = S2T()
     patstr = str(patient.text)
 
+    # Se pregunta el campo a editar y se cambia en Firebase
     if patient.text in pat_alias:
         T2S(Mensaje="¿Qué parámetro de su información deseas editar?")
         param = S2T()
@@ -454,17 +534,19 @@ def EditaPaciente():
 
             direccion = '/ID/' + ProductID + '/Pacientes/' + pat_folio[pat_ch]
 
-            fb.put(direccion, info_raw[par_ch], valuestr)
+            fb.put(direccion, info_raw[par_ch], valuestr) # Se cambia através de la petición PUT
 
             confi = "Se ha cambiado " + paramstr[:-1] + " a " + valuestr[:-1]
             T2S(confi)
     else:
         T2S(Mensaje="Ese no es un alias válido. Volviendo al menú para evitar accidentes.")
 
+# Función en la que se pueden agregar pacientes vía voz
 def AgregarPaciente():
     direccion = '/ID/' + ProductID + '/Pacientes/'
     T2S(Mensaje="Has elegido agregar paciente. Ten a la mano la información de tu paciente, y responde las siguientes preguntas.")
     
+    # Preguntamos los datos
     T2S(Mensaje="Apellido Paterno")
     ApellidoP = S2T()
     T2S(Mensaje="Apellido Materno")
@@ -484,6 +566,7 @@ def AgregarPaciente():
     Alergico = Alergias()
     Enferm = Enfermedades()
 
+    # El Speech to text asigna un . a cada respuesta, aquí lo eliminamos
     APP = str(ApellidoP.text)
     APP = APP[:-1]
     APM = str(ApellidoM.text)
@@ -499,6 +582,7 @@ def AgregarPaciente():
     GSG = str(GSangre.text)
     GSG = GSG[:-1]
 
+    # Guardamos los dats en un JSON
     datos = {
         "Apellido-Paterno": APP,
         "Apellido-Materno": APM,
@@ -512,12 +596,16 @@ def AgregarPaciente():
         "Enfermedades": Enferm
     }
 
-    resid = fb.post(direccion, datos)
+    resid = fb.post(direccion, datos) # Hacemos la petición POST
     
     return resid
 
+# Función para eliminar un paciente almacenado
 def EliminarPaciente():
+    # Datos para Firebase
     direccion = '/ID/' + ProductID + '/Pacientes/'
+
+    # Traemos los folios y los alias de los pacientes
     uno, dos, tres, cuatro, cinco = ConsultaPacientesID()
     pats = [uno, dos, tres, cuatro, cinco]
 
@@ -527,6 +615,7 @@ def EliminarPaciente():
     aliascuatro = Alias(cuatro)
     aliascinco = Alias(cinco)
 
+    # Pregunta el paciente a eliminar
     T2S(Mensaje="¿Qué paciente deseas eliminar? Recuerda usar el alias y que esto es una acción no reversible.")
     delete = S2T()
     aliados = [aliasuno, aliasdos, aliastres, aliascuatro, aliascinco]
@@ -538,7 +627,7 @@ def EliminarPaciente():
 
         if confirmacion.text == "Sí." or confirmacion.text == "Estoy seguro.":
             aliado = aliados.index(deleted)
-            fb.delete(direccion,pats[aliado])
+            fb.delete(direccion,pats[aliado]) # Eliminamos el paciente con el método POST
             T2S(Mensaje="Información de paciente eliminada.")
         else:
             T2S(Mensaje="Cancelando eliminación.")
@@ -547,6 +636,7 @@ def EliminarPaciente():
     else:
         T2S(Mensaje="Ese no es un alias válido. Volviendo al menú para evitar accidentes.")
 
+# Función para elegir las acciones en la sección de pacientes
 def Pacientes():
     T2S(Mensaje="Bienvenido a la configuración general de pacientes. Puedes: Consultar, editar, agregar o eliminar información. También puedes hacerlo a través de la app. ¿Qué deseas hacer?")
     electo = False
