@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Juan Alemán</title>
+        <style>
+            .padreW1 {
+                position: relative;
+            }
+            .hijoW1 {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 30%;
+                width: 50%;
+                margin: -20% 0 0 -18%;
+            }
+            .padreW2 {
+                position: relative;
+            }
+            .hijoW2 {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 30%;
+                width: 50%;
+                margin: -20% 0 0 14%;
+            }
+            .padreW3 {
+                position: relative;
+            }
+            .hijoW3 {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 30%;
+                width: 50%;
+                margin: 1% 0 0 -50%;
+            }
+            .padreW4 {
+                position: relative;
+            }
+            .hijoW4 {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 30%;
+                width: 50%;
+                margin: 1% 0 0 -18%;
+            }
+            .padreW5 {
+                position: relative;
+            }
+            .hijoW5 {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 30%;
+                width: 50%;
+                margin: 1% 0 0 14%;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="text-align: center;"><h1>Información en Vivo</h1></div>
+        <h2>Información del Paciente</h2>
+        <table>
+            <tr>
+                <td>Nombre(s):</td>
+                <td>Juan Jesús</td>
+            </tr>
+            <tr>
+                <td>Apellido Paterno:</td>
+                <td>Alemán</td>
+            </tr>
+            <tr>
+                <td>Apellido Materno:</td>
+                <td>Espriella</td>
+            </tr>
+            <tr>
+                <td>Sexo:</td>
+                <td>Masculino</td>
+            </tr>
+            <tr>
+                <td>Edad:</td>
+                <td>25</td>
+            </tr>
+            <tr>
+                <td>Altura:</td>
+                <td>175 cm</td>
+            </tr>
+            <tr>
+                <td>Peso:</td>
+                <td>75 kg</td>
+            </tr>
+            <tr>
+                <td>Alergias:</td>
+                <td>Polvo</td>
+            </tr>
+            <tr>
+                <td>Enfermedades:</td>
+                <td>Ninguna</td>
+            </tr>
+            <tr>
+                <td>Contacto:</td>
+                <td><a href="">Padre</a></td>
+            </tr>
+        </table>
+        <div class="padreW1">
+            <div class="hijoW1">
+                <iframe width="420" height="260" style="border: 1px solid #f44336;" src="https://thingspeak.com/channels/1648132/widgets/426291"></iframe>
+            </div>
+        </div>
+        <div class="padreW2">
+            <div class="hijoW2">
+                <iframe width="420" height="260" style="border: 1px solid #008CBA;" src="https://thingspeak.com/channels/1648132/widgets/426292"></iframe>
+            </div>
+        </div>
+        <div class="padreW3">
+            <div class="hijoW3">
+                <iframe width="420" height="260" style="border: 1px solid #4CAF50;" src="https://thingspeak.com/channels/1648132/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=20&title=Temperatura&type=line"></iframe>
+            </div>
+        </div>
+        <div class="padreW4">
+            <div class="hijoW4">
+                <iframe width="420" height="260" style="border: 1px solid #faa629;" src="https://thingspeak.com/channels/1648132/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=20&title=Humedad&type=line"></iframe>
+            </div>
+        </div>
+        <div class="padreW5">
+            <div class="hijoW5">
+                <iframe width="420" height="260" style="border: 1px solid #8b7e7e;" src="https://thingspeak.com/channels/1648132/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=20&title=PPM&type=line"></iframe>
+            </div>
+        </div>
+    </body>
+</html>

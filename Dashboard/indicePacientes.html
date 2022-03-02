@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pacientes</title>
+        <style>
+            .paciente{
+                font-weight: bold;
+                font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                font-size: 30px;
+                margin: auto;
+            }
+            .padre {
+                position: relative;
+            }
+            .hijo {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 30%;
+                width: 50%;
+                margin: 1% 0 0 -25%;
+            }
+            .button {
+                background-color: #4CAF50; /* Green */
+                border: none;
+                color: white;
+                padding: 16px 32px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 16px;
+                -webkit-transition-duration: 0.4s; /* Safari */
+                transition-duration: 0.4s;
+                cursor: pointer;
+            }
+            .button1 {
+                background-color: white; 
+                color: black; 
+                border: 2px solid #4CAF50;
+            }
+            .button1:hover {
+                background-color: #4CAF50;
+                color: white;
+            }
+            .button2 {
+                background-color: white; 
+                color: black; 
+                border: 2px solid #008CBA;
+            }
+            .button2:hover {
+                background-color: #008CBA;
+                color: white;
+            }
+            .button3 {
+                background-color: white; 
+                color: black; 
+                border: 2px solid #f44336;
+            }
+            .button3:hover {
+                background-color: #f44336;
+                color: white;
+            }
+            .button4 {
+                background-color: white;
+                color: black;
+                border: 2px solid #faa629;
+            }
+            .button4:hover {
+                background-color: #faa629;
+            }
+            .button5 {
+            background-color: white;
+            color: black;
+            border: 2px solid #8b7e7e;
+            }
+            .button5:hover {
+                background-color: #8b7e7e;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="padre" style="text-align: center;">
+            <div class="hijo">
+                <a class="paciente" href="">Paola Alemán</a><br>
+                    <button class="button button3">BPM</button>
+                    <button class="button button2">SPO2</button>
+                    <button class="button button1">Temperatura</button>
+                    <button class="button button4">Humedad</button>
+                    <button class="button button5">PPM</button>
+                <br><br>
+                <a class="paciente" href="./juanAleman.html">Juan Alemán</a><br>
+                   <button class="button button3">BPM</button>
+                    <button class="button button2">SPO2</button>
+                    <button class="button button1">Temperatura</button>
+                    <button class="button button4">Humedad</button>
+                    <button class="button button5">PPM</button>
+                <br><br>
+                <a class="paciente" href="">Emilio Garza</a><br>
+                    <button class="button button3">BPM</button>
+                    <button class="button button2">SPO2</button>
+                    <button class="button button1">Temperatura</button>
+                    <button class="button button4">Humedad</button>
+                    <button class="button button5">PPM</button>
+                <br><br>
+                <a class="paciente" href="">Luis Pérez</a><br>
+                <button class="button button3">BPM</button>
+                    <button class="button button2">SPO2</button>
+                    <button class="button button1">Temperatura</button>
+                    <button class="button button4">Humedad</button>
+                    <button class="button button5">PPM</button>
+                <br><br>
+                <a class="paciente" href="">Miguel López</a><br>
+                <button class="button button3">BPM</button>
+                    <button class="button button2">SPO2</button>
+                    <button class="button button1">Temperatura</button>
+                    <button class="button button4">Humedad</button>
+                    <button class="button button5">PPM</button>
+                <br><br>
+                <div style="text-align: center;">
+                    <button>Panel General</button>
+                    <img src="./assets/img/logoapp.png" alt="miniLogo" width="75">
+                    <button onclick="location.href='./emmaPrincipal.html'">Regresar......</button>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
