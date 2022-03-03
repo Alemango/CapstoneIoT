@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>PPM</title>
+        <style>
+            *{
+                font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif ;
+            }
+            .padreB {
+                position: relative;
+            }
+            .hijoB {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 30%;
+                width: 50%;
+                margin: 35% 0 0 -6%;
+            }
+            .padreW1 {
+                position: relative;
+            }
+            .hijoW1 {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 30%;
+                width: 50%;
+                margin: 5% 0 0 -40%;
+            }
+            .padreW2 {
+                position: relative;
+            }
+            .hijoW2 {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 30%;
+                width: 50%;
+                margin: 5% 0 0 -1%;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="text-align: center;"><h1>Partículas por Millón</h1></div>
+        <div class="padreB">
+            <div class="hijoB">
+                <button onclick="location.href='./indicePacientes.html'">Regresar</button>
+            </div>
+
+        </div>
+        <div class="padreW1">
+            <div class="hijoW1">
+                <iframe width="450" height="260" style="border: 1px solid #8b7e7e;" src="https://thingspeak.com/channels/1648132/widgets/426319"></iframe>
+            </div>
+        </div>
+        <div class="padreW2">
+            <div class="hijoW2">
+                <iframe width="450" height="260" style="border: 1px solid #8b7e7e;" src="https://thingspeak.com/channels/1648132/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=20&title=PPM&type=line"></iframe>
+            </div>
+    </body>
+</html>
