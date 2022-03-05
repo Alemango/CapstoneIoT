@@ -1,8 +1,23 @@
 <!DOCTYPE html>
+
+<!-- 
+Diplomado Internet de las cosas | Samsung Innovation Campus | Código IoT
+
+Proyecto Capstone: Asistente Médico
+Alumno: Juan Jesús Alemán Espriella
+
+Dashboard en HTML
+
+Página HTML que despliega los pacientes registrados y botones hacia las distintas páginas.
+ -->
+
 <html>
     <head>
         <title>Pacientes</title>
         <style>
+
+             /* Etiquetas de estilo CSS: Se diseñaron las clases necesarias para la correcta visualización de los elementos HTML. */
+
             .paciente{
                 font-weight: bold;
                 font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -21,7 +36,7 @@
                 margin: 1% 0 0 -25%;
             }
             .button {
-                background-color: #4CAF50; /* Green */
+                background-color: #4CAF50; 
                 border: none;
                 color: white;
                 padding: 16px 32px;
@@ -29,7 +44,7 @@
                 text-decoration: none;
                 display: inline-block;
                 font-size: 16px;
-                -webkit-transition-duration: 0.4s; /* Safari */
+                -webkit-transition-duration: 0.4s; 
                 transition-duration: 0.4s;
                 cursor: pointer;
             }
@@ -82,6 +97,10 @@
     <body>
         <div class="padre" style="text-align: center;">
             <div class="hijo">
+
+                <!-- Cada uno de estos elementos dentro del div, constituye un link para el paciente y 5 botones
+                los cuales nos llevan a elementos específicos que se midieron a través de los sensores -->
+
                 <a class="paciente" href="./paolaAleman.html">Paola Alemán</a><br>
                     <button onclick="location.href='./BPM.html'" class="button button3">BPM</button>
                     <button onclick="location.href='./SPO.html'" class="button button2">SPO2</button>
@@ -117,9 +136,12 @@
                     <button onclick="location.href='./Humedad.html'" class="button button4">Humedad</button>
                     <button onclick="location.href='./PPM.html'" class="button button5">PPM</button>
                 <br><br>
-                <div style="text-align: center;">
+                <div style="text-align: center;"> 
+                    <!-- Botón Para el panel General -->
                     <button>Panel General</button>
+                    <!-- logo -->
                     <img src="./assets/img/logoapp.png" alt="miniLogo" width="75">
+                    <!-- Botón para regresar -->
                     <button onclick="location.href='./emmaPrincipal.html'">Regresar......</button>
                 </div>
             </div>

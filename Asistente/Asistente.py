@@ -17,10 +17,16 @@ from firebase import firebase # Librería para conexión con Firebase | pip inst
 import time # Librería para manejos de fecha y hora
 import requests # Librería para manejos de requests GET, POST, PUT, DELETE | pip install requests
 import json # Librería para el manejo de datos en JSON
+from paho.mqtt import client as mqtt # Librería para el cliente MQTT | pip install paho-mqtt
 
 fb = firebase.FirebaseApplication("https://emma-asistente-default-rtdb.firebaseio.com/",None) # Inicializamos la conexión con Firebase
 speech_config = speechsdk.SpeechConfig(subscription="94ae3801dd2147e39787c7b05e045899", region="westus") # Inicializamos la conexión con Azure Cognitive Services
 ProductID = "3ac35d1779c6404bb1f9bdacbaff7d9e" 
+
+broker = 'broker.mqttdashboard.com' # Broker MQTT
+port = 1883 # Puerto MQTT
+topic = "emma/prototipo/mqtt" # Tema para publicar
+client_id = 'Alguno12345' # id
 
 # Función para que el asiste reaccione a una sola palabra clave
 def NOMBRE():
@@ -660,6 +666,36 @@ def Pacientes():
             T2SError()
             electo = False
 
+# Función para conectar el cliente MQTT
+def connect_mqtt():
+    def on_connect(client, userdata, flags, rc):
+        if rc == 0:
+            print("Connected to MQTT Broker!")
+        else:
+            print("Failed to connect, return code %d\n", rc)
+    # Set Connecting Client ID
+    client = mqtt.Client(client_id)
+    client.on_connect = on_connect
+    client.connect(broker, port)
+    return client
+
+# Función que publica un mensaje en el tema indicado
+def publish(client):
+    msg = "1" 
+    result = client.publish(topic, msg)
+    status = result[0]
+    if status == 0:
+        print(f"Send `{msg}` to topic `{topic}`")
+    else:
+        print(f"Failed to send message to topic {topic}")
+
+# Función que ejecuta el cliente MQTT
+def run():
+    client = connect_mqtt()
+    client.loop_start()
+    publish(client)
+
+
 #ConfigInicial = VerifConfigInic()
 #if ConfigInicial == True:
 #    PresentacionCero()
@@ -673,5 +709,6 @@ def Pacientes():
 #    print("Yaztas")
 #NOMBRE()
 T2S(Mensaje="Di algo")
+run()
 S2TLUIS()
 #AgregarPaciente()
