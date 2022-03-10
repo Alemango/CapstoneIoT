@@ -139,7 +139,7 @@ Selecciona: 115200
         - **Options:** Run action each time condition is met.
     - Guarda.
 
-- Descarga e instala la app.
+- [Descarga](https://github.com/Alemango/CapstoneIoT/blob/main/Aplicaci%C3%B3n/EMMA.apk) e instala la app.
 
 ## Desarrollado:
 - [Juan Alemán](https://github.com/Alemango)
