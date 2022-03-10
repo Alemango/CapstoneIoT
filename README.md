@@ -85,7 +85,7 @@ Esperamos tener un asistente virtual funcional, equipado con las funciones neces
 </table>
 
 ## Workflow:
-<img src="./Media/Workflow.png">
+<img src="./Media/WorkFlow.png">
 
 ## Instrucciones:
 - Haz fork de este repositorio.
