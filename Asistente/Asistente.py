@@ -18,6 +18,7 @@ import time # Librería para manejos de fecha y hora
 import requests # Librería para manejos de requests GET, POST, PUT, DELETE | pip install requests
 import json # Librería para el manejo de datos en JSON
 from paho.mqtt import client as mqtt # Librería para el cliente MQTT | pip install paho-mqtt
+import webbrowser # Librería para visualizar archivos HTML
 
 fb = firebase.FirebaseApplication("https://emma-asistente-default-rtdb.firebaseio.com/",None) # Inicializamos la conexión con Firebase
 speech_config = speechsdk.SpeechConfig(subscription="94ae3801dd2147e39787c7b05e045899", region="westus") # Inicializamos la conexión con Azure Cognitive Services
@@ -219,6 +220,19 @@ def SelectorAccion(ResBody, IntencionJSON):
                 elegido = int(EntUno['entity'])
                 print(pati[elegido-1])
                 T2S("Enviado vía Paciente")
+        except:
+            T2SError()
+
+    elif IntencionJSON['intent'] == 'Info':
+        try:
+            EntUno = DevEnt(ResBody)
+            Consulta2(EntUno)
+        except:
+            T2SError()
+
+    elif IntencionJSON['intent'] == 'Pacientes':
+        try:
+            Pacientes()
         except:
             T2SError()
 
@@ -466,11 +480,14 @@ def ConsultaPaciente():
     uno, dos, tres, cuatro, cinco = ConsultaPacientesID()
 
     # Se asigna el alias de cada paciente, ya que con este se podrá consultar su información
-    aliasuno = Alias(uno)
-    aliasdos = Alias(dos)
-    aliastres = Alias (tres)
-    aliascuatro = Alias(cuatro)
-    aliascinco = Alias(cinco)
+    aliasuno = Alias(uno) + "."
+    aliasdos = Alias(dos) + "."
+    aliastres = Alias (tres) + "."
+    aliascuatro = Alias(cuatro) + "."
+    aliascinco = Alias(cinco) + "."
+
+    webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\indicePacientes.html')
+
 
     T2S(Mensaje="Deseas buscar por folio o usando el alias.")
     resultado = S2T()
@@ -481,16 +498,21 @@ def ConsultaPaciente():
     elif resultado.text == "Usando el alias." or resultado.text == "Alias." or resultado.text == "Por el alias." or resultado.text == "El alias.":
         T2S(Mensaje="¿Qué paciente buscas?")
         busca = S2T()
-        if busca.text == aliasuno:
+        if busca.text == aliasuno.title():
             search = fb.get(direccion, uno)
-        elif busca.text == aliasdos:
+            webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\paolaAleman.html')
+        elif busca.text == aliasdos.title():
             search = fb.get(direccion, dos)
-        elif busca.text == aliastres:
+            webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\juanAleman.html')
+        elif busca.text == aliastres.title():
             search = fb.get(direccion, tres)
-        elif busca.text == aliascuatro:
+            webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\ferGarcia.html')
+        elif busca.text == aliascuatro.title():
             search = fb.get(direccion, cuatro)
-        elif busca.text == aliascinco:
+            webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\luisPerez.html')
+        elif busca.text == aliascinco.title():
             search = fb.get(direccion, cinco)
+            webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\miguelLopez.html')
         else:
             T2SError()
     else:
@@ -695,7 +717,32 @@ def run():
     client.loop_start()
     publish(client)
 
+# Función para la consulta de datos y panel HTML
+def Consulta2(alias):
+    direccion = '/ID/' + ProductID + '/Pacientes/'
+    uno, dos, tres, cuatro, cinco = ConsultaPacientesID()
 
+    if alias['entity'] == 'paola':
+        search = fb.get(direccion, uno)
+        webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\paolaAleman.html')
+    elif alias['entity'] == 'juan':
+        search = fb.get(direccion, dos)
+        webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\juanAleman.html')
+    elif alias['entity'] == 'fer':
+        search = fb.get(direccion, tres)
+        webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\ferGarcia.html')
+    elif alias['entity'] == 'pérez':
+        search = fb.get(direccion, cuatro)
+        webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\luisPerez.html')
+    elif alias['entity'] == 'chino':
+        search = fb.get(direccion, cinco)
+        webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\miguelLopez.html')
+    else:
+        T2SError()
+
+    info = "El paciente" + str(search['Nombre(s)']) + " " + str(search['Apellido-Paterno']) + " " + str(search['Apellido-Materno']) + " tiene " + str(search['Edad']) + " años, mide " + str(search['Estatura']) + " centímetros y pesa " + str(search['Peso']) + " kilogramos. Su tipo de sangre es " + str(search['Grupo-Sangre']) + ". Alergias: " + str(search['Alergias']) + ". Enfermedades: " + str(search['Enfermedades'])
+    T2S(info)
+    
 #ConfigInicial = VerifConfigInic()
 #if ConfigInicial == True:
 #    PresentacionCero()
@@ -709,6 +756,5 @@ def run():
 #    print("Yaztas")
 #NOMBRE()
 T2S(Mensaje="Di algo")
-run()
+#run()
 S2TLUIS()
-#AgregarPaciente()
