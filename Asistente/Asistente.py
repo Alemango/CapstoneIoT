@@ -31,7 +31,7 @@ client_id = 'Alguno12345' # id
 
 # Función para que el asiste reaccione a una sola palabra clave
 def NOMBRE():
-    modelo = speechsdk.KeywordRecognitionModel("2c250f64-5d7d-48b3-89dd-c1625a472da1.table") # Se adjunta el archivo con el que se entrenó
+    modelo = speechsdk.KeywordRecognitionModel(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Asistente\emma.table') # Se adjunta el archivo con el que se entrenó
     keyword = "Emma"
     reconocimiento = speechsdk.KeywordRecognizer()
     hecho = False
@@ -724,19 +724,19 @@ def Consulta2(alias):
 
     if alias['entity'] == 'paola':
         search = fb.get(direccion, uno)
-        webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\paolaAleman.html')
+        webbrowser.open_new_tab('https://alemango.github.io/Dashboard-Emma/infoPacienteUno.html')
     elif alias['entity'] == 'juan':
         search = fb.get(direccion, dos)
-        webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\juanAleman.html')
+        webbrowser.open_new_tab('https://alemango.github.io/Dashboard-Emma/infoPacienteDos.html')
     elif alias['entity'] == 'fer':
         search = fb.get(direccion, tres)
-        webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\ferGarcia.html')
+        webbrowser.open_new_tab('https://alemango.github.io/Dashboard-Emma/infoPacienteTres.html')
     elif alias['entity'] == 'pérez':
         search = fb.get(direccion, cuatro)
-        webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\luisPerez.html')
+        webbrowser.open_new_tab('https://alemango.github.io/Dashboard-Emma/infoPacienteCuatro.html')
     elif alias['entity'] == 'chino':
         search = fb.get(direccion, cinco)
-        webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\miguelLopez.html')
+        webbrowser.open_new_tab('https://alemango.github.io/Dashboard-Emma/infoPacienteCinco.html')
     else:
         T2SError()
 
@@ -754,7 +754,7 @@ def Consulta2(alias):
 #    CambiaConfigInic()
 #elif ConfigInicial == False:
 #    print("Yaztas")
-#NOMBRE()
+NOMBRE()
 T2S(Mensaje="Di algo")
 #run()
 S2TLUIS()
