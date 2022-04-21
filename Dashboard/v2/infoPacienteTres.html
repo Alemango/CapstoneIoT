@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylePatients.css">
+    <title>Paciente</title>
+</head>
+<body>
+    <div class="main">
+        <div class="izquierda">
+            <h1>Información del Paciente</h1>
+            <div class="static">Nombre:</div><div nombre class="dynamic">Nombre</div>
+            <div class="static">Sexo:</div><div sexo class="dynamic">Sexo</div>
+            <div class="static">Edad:</div><div edad class="dynamic">Edad</div>
+            <div class="static">Altura:</div><div altura class="dynamic">Altura</div>
+            <div class="static">Peso</div><div peso class="dynamic">Peso</div>
+            <div class="static">Alergias:</div><div alergias class="dynamic">Alergias</div>
+            <div class="static">Enfermedades:</div><div enfermedades class="dynamic">Enfermedades</div>
+            <div class="static">Contacto:</div><div contacto class="dynamic">Contacto</div>
+            <div class="foot">
+                <a href="./index.html"><img src="./assets/img/logoapp.png" alt="EMMA" class="marca"></a>
+                <h5>Desarrollado por: <a href="https://linktr.ee/alemango" target="_blank">Juan Alemán</a></h5>
+            </div>
+        </div>
+        <div class="derecha">
+            <div class="numero">
+                <iframe width="420" height="220" style="border: 1px solid #f44336; " src="https://thingspeak.com/channels/1648132/widgets/426291"></iframe>
+            </div>
+            <div class="numero">
+                <iframe width="420" height="220" style="border: 1px solid #008CBA;" src="https://thingspeak.com/channels/1648132/widgets/426292"></iframe>
+            </div>
+            <div class="grafica">
+                <iframe width="430" height="260" style="border: 1px solid #4CAF50;" src="https://thingspeak.com/channels/1648132/charts/3?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=20&title=Temperatura&type=line"></iframe>
+            </div>
+            <div class="grafica">
+                <iframe width="430" height="260" style="border: 1px solid #faa629;" src="https://thingspeak.com/channels/1648132/charts/4?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=20&title=Humedad&type=line"></iframe>
+            </div>
+            <div class="grafica">
+                <iframe width="430" height="260" style="border: 1px solid #8b7e7e;" src="https://thingspeak.com/channels/1648132/charts/5?bgcolor=%23ffffff&color=%23d62020&dynamic=true&results=20&title=PPM&type=line"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <script src="./scriptPatientTres.js"></script>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Anek+Gujarati&display=swap');
+
+* {
+    font-family: 'Anek Gujarati', sans-serif;
+}
+
+.titulo {
+    text-align: center;
+}
+
+.contenedor {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.grafica {
+    margin: 5%;
+}
+
+.marca {
+    width: 5%;
+    margin-bottom: -2%;
+    margin-top: 2%;
+}
+
+.footer {
+    text-align: center;
+}

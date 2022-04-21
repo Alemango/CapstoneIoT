@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Anek+Gujarati&display=swap');
+
+*{
+    font-family: 'Anek Gujarati', sans-serif;
+    margin: 0;
+    /* background-color: #f3eaea; */
+}
+
+.main {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.izquierda {
+    width: 28%;
+    height: 100%;
+    padding: 1%;
+    /* background-color: #080cff; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border-radius: 6%;
+    border: darkblue solid 5px;
+}
+
+.derecha {
+    width: 68%;
+    height: 100%;
+    /* background-color: rgb(255, 0, 0); */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.izquierda h1 {
+    width: 100%;
+    text-align: center;
+    margin: 2%;
+    font-size: 2.5vw;
+}
+
+.static {
+    width: 35%;
+    font-weight: bolder;
+    font-size: 1.4vw;
+}
+
+.dynamic {
+    width: 65%;
+    font-size: 1.4vw;
+}
+
+.foot {
+    width: 100%;
+    text-align: center;
+    margin-top: 25vw;
+    font-size: 1vw;
+}
+
+.foot a {
+    text-decoration: none;
+}
+
+.foot img {
+    width: 20%;
+}

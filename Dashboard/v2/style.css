@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Anek+Gujarati&display=swap');
+
+* {
+    font-family: 'Anek Gujarati', sans-serif;
+    text-decoration: none;
+}
+
+.imagenPrincipal {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 38%;
+}
+
+.imagenPrincipal:hover {
+    opacity: 0.8;
+}
+
+.footer2{
+    text-align: center;
+    margin-top: 43%;
+}
+
+.footer {
+    text-align: center;
+}
+
+.footer h5 {
+    color: rgb(27, 27, 29);
+    font-size: 2vh;
+}
+
+.footer h5 a {
+    text-decoration: none;
+}
+
+.contenedor {
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.tarjeta {
+    /* background-color: #c47c7c; */
+    margin: auto;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    width: 30%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: #000 3px solid;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.tarjeta:hover {
+    background-color: rgba(140, 235, 211, 0.39);
+    border: rgb(18, 153, 130) 3px solid;
+}
+
+.tarjeta a{
+    text-decoration: none;
+    width: 100%;
+    color: darkslategrey;
+}
+
+.nombre {
+    width: 100%;
+    font-weight: bolder;
+    text-align: center;
+    font-size: 5vh;
+    text-decoration: none;
+}
+
+.edad {
+    margin:auto;
+    font-size: 2.5vh;
+}
+
+.peso {
+    margin:auto;
+    font-size: 2.5vh;
+}
+
+.estatura {
+    margin:auto;
+    font-size: 2.5vh;
+}
+
+.mainStatus {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2%;
+}
+
+.circulo {
+    border-radius: 100%;
+    background-color: chartreuse;
+    width: 2%;
+    height: 60%;
+    margin-right: 2%;
+}
+
+.estatus {
+    font-size: 1.5vh;
+    font-weight: bolder;
+    color: chartreuse;
+}
+
+.botones {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2%;
+}
+
+.botones button {
+    border: none;
+    color: white;
+    padding: 1% 2%;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 3vh;
+    -webkit-transition-duration: 0.4s; 
+    transition-duration: 0.4s;
+    cursor: pointer;
+    margin: auto;
+}
+
+.botones button.BPM {
+    background-color: tomato;
+}
+
+.botones button.BPM:hover {
+    background-color: red;
+}
+
+.botones button.SPO2 {
+    background-color:  rgb(133, 229, 241) ;
+}
+
+.botones button.SPO2:hover {
+    background-color: cadetblue;
+}
+
+.botones button.Temp {
+    background-color: tan;
+}
+
+.botones button.Temp:hover {
+    background-color: sienna;
+}
+
+.botones button.Hum {
+    background-color: silver;
+}
+
+.botones button.Hum:hover {
+    background-color: slategray;
+}
+
+.botones button.PPM {
+    background-color: springgreen;
+}
+
+.botones button.PPM:hover {
+    background-color: seagreen;
+}
+
+.titulo {
+    text-align: center;
+    font-size: 8vh;
+}
+
+.marca {
+    width: 5%;
+    margin-top:5%;
+    margin-bottom: -2%;
+}
+
+.plus {
+    width: 100%;
+    text-align: center;
+}
+
+.plus:hover{
+    opacity: 0.8;
+}
+
+.plus img {
+    width: 15%;
+}
