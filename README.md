@@ -85,7 +85,7 @@ Esperamos tener un asistente virtual funcional, equipado con las funciones neces
 </table>
 
 ## Workflow:
-<img src="./Media/Workflow.png">
+<img src="./Media/WorkFlow.png">
 
 ## Instrucciones:
 - Haz fork de este repositorio.
@@ -139,7 +139,7 @@ Selecciona: 115200
         - **Options:** Run action each time condition is met.
     - Guarda.
 
-- Descarga e instala la app.
+- [Descarga](https://github.com/Alemango/CapstoneIoT/blob/main/Aplicaci%C3%B3n/EMMA.apk) e instala la app.
 
 ## Desarrollado:
 - [Juan Alemán](https://github.com/Alemango)
