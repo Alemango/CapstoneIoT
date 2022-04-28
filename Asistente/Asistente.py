@@ -486,7 +486,7 @@ def ConsultaPaciente():
     aliascuatro = Alias(cuatro) + "."
     aliascinco = Alias(cinco) + "."
 
-    webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\indicePacientes.html')
+    webbrowser.open_new_tab('https://alemango.github.io/Dashboard-Emma/pacientes.html')
 
 
     T2S(Mensaje="Deseas buscar por folio o usando el alias.")
@@ -500,19 +500,19 @@ def ConsultaPaciente():
         busca = S2T()
         if busca.text == aliasuno.title():
             search = fb.get(direccion, uno)
-            webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\paolaAleman.html')
+            webbrowser.open_new_tab('https://alemango.github.io/Dashboard-Emma/infoPacienteUno.html')
         elif busca.text == aliasdos.title():
             search = fb.get(direccion, dos)
-            webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\juanAleman.html')
+            webbrowser.open_new_tab('https://alemango.github.io/Dashboard-Emma/infoPacienteDos.html')
         elif busca.text == aliastres.title():
             search = fb.get(direccion, tres)
-            webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\ferGarcia.html')
+            webbrowser.open_new_tab('https://alemango.github.io/Dashboard-Emma/infoPacienteTres.html')
         elif busca.text == aliascuatro.title():
             search = fb.get(direccion, cuatro)
-            webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\luisPerez.html')
+            webbrowser.open_new_tab('https://alemango.github.io/Dashboard-Emma/infoPacienteCuatro.html')
         elif busca.text == aliascinco.title():
             search = fb.get(direccion, cinco)
-            webbrowser.open_new_tab(r'C:\Users\aleal\OneDrive\Documentos\GitHub\CapstoneIoT\Dashboard\miguelLopez.html')
+            webbrowser.open_new_tab('https://alemango.github.io/Dashboard-Emma/infoPacienteCinco.html')
         else:
             T2SError()
     else:
@@ -527,11 +527,11 @@ def EditaPaciente():
     # Obtenemos los folios de los pacientes y asignamos sus alias
     uno, dos, tres, cuatro, cinco = ConsultaPacientesID()
 
-    aliasuno = Alias(uno)
-    aliasdos = Alias(dos)
-    aliastres = Alias (tres)
-    aliascuatro = Alias(cuatro)
-    aliascinco = Alias(cinco)
+    aliasuno = Alias(uno) + "."
+    aliasdos = Alias(dos) + "."
+    aliastres = Alias (tres) + "."
+    aliascuatro = Alias(cuatro) + "."
+    aliascinco = Alias(cinco) + "."
 
     # Los acomodamos en listas
     pat_folio = [uno, dos, tres, cuatro, cinco]
@@ -546,7 +546,7 @@ def EditaPaciente():
     patstr = str(patient.text)
 
     # Se pregunta el campo a editar y se cambia en Firebase
-    if patient.text in pat_alias:
+    if patstr.lower() in pat_alias:
         T2S(Mensaje="¿Qué parámetro de su información deseas editar?")
         param = S2T()
         paramstr = str(param.text)
@@ -754,7 +754,7 @@ def Consulta2(alias):
 #    CambiaConfigInic()
 #elif ConfigInicial == False:
 #    print("Yaztas")
-NOMBRE()
-T2S(Mensaje="Di algo")
-#run()
-S2TLUIS()
+while(1):
+    NOMBRE()
+    T2S(Mensaje="Di algo")
+    S2TLUIS()
